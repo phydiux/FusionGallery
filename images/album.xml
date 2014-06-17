@@ -1,0 +1,21 @@
+<album>
+	<name>Random Images</name>
+	<keywords>pictures</keywords>
+	<description>Pictures of random things</description>
+
+	<picture>
+		<filename>creepyeye.jpg</filename>
+		<name>Creepy Cat Eye</name>
+		<description>
+			This is my cat's eye.
+		</description>
+	</picture>
+	<picture>
+		<filename>New-York-122.jpg</filename>
+		<name>Lady Liberty</name>
+		<description>
+			A symbol of freedom.
+		</description>
+	</picture>
+
+</album>
