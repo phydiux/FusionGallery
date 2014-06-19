@@ -9,26 +9,33 @@
 		<table>
 			<tr>
 				<td colspan="2" class="breadcrumbs">
-					<a href="<cfoutput>#request.fusionGallery.absoluteBaseURL#</cfoutput>">Home</a> 
-					<cfif IsDefined("request.fusionGallery.url_dir")>
-						<cfset variables.output_dir_str = "">
-						<cfset variables.output_dir_loopcount = '1'>
+					<a href="<cfoutput>#request.fusionGallery.absoluteBaseURL#</cfoutput>">Home</a>
+					<cfscript>
+						if (isDefined("request.fusionGallery.url_dir"))
+						{
+							variables.output_dir_str = "";
+							variables.output_dir_loopcount = 1;
 
-						<cfloop index="y" list="#request.fusionGallery.url_dir#" delimiters="/">
-							<cfif variables.output_dir_loopcount eq '1'>
-								<cfset variables.output_dir_str = y >
-							<cfelse>
-								<cfset variables.output_dir_str = variables.output_dir_str & '/' & y >						
-							</cfif>
-							&gt; <a href="?d=<cfoutput>#variables.output_dir_str#</cfoutput>"><cfoutput>#y#</cfoutput></a>
-							<cfset variables.output_dir_loopcount = variables.output_dir_loopcount + 1>
-						</cfloop>
-					</cfif>
+							for (y = 1; y lte listLen(request.fusionGallery.url_dir, "/"); y++) 
+							{
+								if (variables.output_dir_loopcount eq 1)
+								{
+									variables.output_dir_str = listGetAt(request.fusionGallery.url_dir, y, "/");
+								} else {
+									variables.output_dir_str = variables.output_dir_str & '/' & y;
+								}
+								
+								writeoutput('&gt; <a href="?d=' & variables.output_dir_str & '">' & listGetAt(request.fusionGallery.url_dir, y, "/") & '</a>');
+								
+								variables.output_dir_loopcount = variables.output_dir_loopcount + 1;
+							}
+						}
+					</cfscript>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-				Albums Below current: <span class="belowCurrentCount"><cfoutput>(#request.fusionGallery.dirs_under_current_qry.recordcount# total)</cfoutput></span>
+					Albums Below current: <span class="belowCurrentCount"><cfoutput>(#request.fusionGallery.dirs_under_current_qry.recordcount# total)</cfoutput></span>
 				</td>
 			</tr>
 			<cfloop query="request.fusionGallery.dirs_under_current_qry">
@@ -116,7 +123,6 @@
 				</cfscript>
 				<a href="<cfoutput>#request.fusionGallery.image_url_fullsize&request.fusionGallery.file_fullsize_qry.filename#</cfoutput>" title="<cfoutput>#variables.imageTitle#</cfoutput>">
 					<img src="<cfoutput>#request.fusionGallery.image_url_thumbnail&request.fusionGallery.file_fullsize_qry.filename#</cfoutput>" style="max-width: 150px; max-height: 150px;">
-					<!--- <cfif len(request.fusionGallery.curr_output.description)>#request.fusionGallery.curr_output.description#</cfif> --->
 				</a>
 			</cfloop>
 		</div>
